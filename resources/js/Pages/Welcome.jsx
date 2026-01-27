@@ -147,7 +147,7 @@ export default function Welcome({ auth, categories = [], featuredProducts = [] }
             <Head title="Angel Cake'S - Toko Kue Terbaik" />
             
             {/* Hero Section */}
-            <section id="home" className="pt-32 pb-20 px-4">
+            <section id="home" className="pt-32 pb-20 px-4 overflow-hidden">
                 <div className="container mx-auto">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div className="space-y-6" data-aos="fade-right">
@@ -155,7 +155,7 @@ export default function Welcome({ auth, categories = [], featuredProducts = [] }
                                 <span className="text-pink-600 font-semibold text-sm">🎂 Kue Terbaik di Kota</span>
                             </div>
                                 
-                                <h1 className="text-5xl md:text-6xl font-bold leading-tight">
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                                     Kue Istimewa untuk
                                     <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent"> Momen Spesial</span> Anda
                                 </h1>
@@ -175,7 +175,7 @@ export default function Welcome({ auth, categories = [], featuredProducts = [] }
                                     </Link>
                                 </div>
 
-                                <div className="flex items-center gap-8 pt-4">
+                                <div className="flex flex-wrap items-center gap-4 sm:gap-8 pt-4">
                                     <div>
                                         <div className="text-3xl font-bold text-pink-500">500+</div>
                                         <div className="text-gray-600">Pelanggan Puas</div>
@@ -199,7 +199,7 @@ export default function Welcome({ auth, categories = [], featuredProducts = [] }
                                         alt="Delicious Cake"
                                         className="w-full h-96 object-cover rounded-2xl"
                                     />
-                                    <div className="absolute -bottom-6 -right-6 bg-white rounded-2xl p-6 shadow-xl">
+                                    <div className="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-6 bg-white rounded-2xl p-4 sm:p-6 shadow-xl">
                                         <div className="flex items-center gap-2">
                                             <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
                                             <div>
@@ -215,7 +215,7 @@ export default function Welcome({ auth, categories = [], featuredProducts = [] }
                 </section>
 
                 {/* Categories Section - Carousel */}
-                <section id="products" className="py-20 px-4 bg-white/50">
+                <section id="products" className="py-20 px-4 bg-white/50 overflow-hidden">
                     <div className="container mx-auto">
                         <div className="text-center mb-16" data-aos="fade-up">
                             <h2 className="text-4xl font-bold mb-4">Kategori Kue Kami</h2>
@@ -307,7 +307,7 @@ export default function Welcome({ auth, categories = [], featuredProducts = [] }
                 </section>
 
                 {/* Featured Products */}
-                <section className="py-20 px-4">
+                <section className="py-20 px-4 overflow-hidden">
                     <div className="container mx-auto">
                         <div className="text-center mb-16" data-aos="fade-up">
                             <h2 className="text-4xl font-bold mb-4">Produk Unggulan</h2>
@@ -382,7 +382,7 @@ export default function Welcome({ auth, categories = [], featuredProducts = [] }
                 </section>
 
                 {/* Testimonials */}
-                <section className="py-20 px-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white">
+                <section className="py-20 px-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white overflow-hidden">
                     <div className="container mx-auto">
                         <div className="text-center mb-16" data-aos="fade-up">
                             <h2 className="text-4xl font-bold mb-4">Apa Kata Pelanggan</h2>
@@ -433,74 +433,42 @@ export default function Welcome({ auth, categories = [], featuredProducts = [] }
                 </section>
 
                 {/* Contact Section */}
-                <section id="contact" className="py-20 px-4 bg-white">
+                <section id="contact" className="py-20 px-4 bg-white overflow-hidden">
                     <div className="container mx-auto">
-                        <div className="grid md:grid-cols-2 gap-12 items-center">
-                            <div data-aos="fade-right">
-                                <h2 className="text-4xl font-bold mb-6">Hubungi Kami</h2>
-                                <p className="text-xl text-gray-600 mb-8">
-                                    Punya pertanyaan atau ingin memesan kue custom? Jangan ragu untuk menghubungi kami!
-                                </p>
+                        <div className="max-w-2xl mx-auto text-center" data-aos="fade-up">
+                            <h2 className="text-4xl font-bold mb-6">Hubungi Kami</h2>
+                            <p className="text-xl text-gray-600 mb-12">
+                                Punya pertanyaan atau ingin memesan kue custom? Jangan ragu untuk menghubungi kami!
+                            </p>
 
-                                <div className="space-y-6">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center">
-                                            <MapPin className="w-6 h-6 text-pink-500" />
-                                        </div>
-                                        <div>
-                                            <div className="font-semibold">Alamat</div>
-                                            <div className="text-gray-600">Jl. Contoh No. 123, Jakarta</div>
-                                        </div>
+                            <div className="grid md:grid-cols-3 gap-8">
+                                <div className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                                    <div className="w-16 h-16 bg-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <MapPin className="w-8 h-8 text-white" />
                                     </div>
-
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                                            <Phone className="w-6 h-6 text-purple-500" />
-                                        </div>
-                                        <div>
-                                            <div className="font-semibold">Telepon</div>
-                                            <div className="text-gray-600">+62 812-3456-7890</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                            <Mail className="w-6 h-6 text-blue-500" />
-                                        </div>
-                                        <div>
-                                            <div className="font-semibold">Email</div>
-                                            <div className="text-gray-600">info@enjelcakes.com</div>
-                                        </div>
-                                    </div>
+                                    <div className="font-semibold text-lg mb-2">Alamat</div>
+                                    <div className="text-gray-600">Jl. Raya Abepura No. 123, Jayapura, Papua</div>
                                 </div>
-                            </div>
 
-                            <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl p-8" data-aos="fade-left" data-aos-delay="200">
-                                <form className="space-y-4">
-                                    <div className="form-control">
-                                        <input
-                                            type="text"
-                                            placeholder="Nama Anda"
-                                            className="input input-bordered w-full"
-                                        />
+                                <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                                    <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <Phone className="w-8 h-8 text-white" />
                                     </div>
-                                    <div className="form-control">
-                                        <input
-                                            type="email"
-                                            placeholder="Email"
-                                            className="input input-bordered w-full"
-                                        />
+                                    <div className="font-semibold text-lg mb-2">Telepon</div>
+                                    <a href="tel:+6281234567890" className="text-gray-600 hover:text-purple-500 transition-colors">
+                                        +62 812 3456 7890
+                                    </a>
+                                </div>
+
+                                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                                    <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <Mail className="w-8 h-8 text-white" />
                                     </div>
-                                    <div className="form-control">
-                                        <textarea
-                                            placeholder="Pesan Anda"
-                                            className="textarea textarea-bordered w-full h-32"
-                                        ></textarea>
-                                    </div>
-                                    <button className="btn btn-primary w-full rounded-full">
-                                        Kirim Pesan
-                                    </button>
-                                </form>
+                                    <div className="font-semibold text-lg mb-2">Email</div>
+                                    <a href="mailto:info@angelcakes.com" className="text-gray-600 hover:text-blue-500 transition-colors">
+                                        info@angelcakes.com
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

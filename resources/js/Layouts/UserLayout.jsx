@@ -6,7 +6,7 @@ export default function UserLayout({ children }) {
     const { auth } = usePage().props;
     
     return (
-        <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+        <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 overflow-x-hidden">
             {/* Navbar */}
             <Navbar auth={auth} />
 
