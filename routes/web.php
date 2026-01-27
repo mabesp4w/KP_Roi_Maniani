@@ -240,9 +240,7 @@ Route::get('/dashboard', function () {
 
 // Admin Routes - Hanya bisa diakses oleh admin
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Admin/Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
     // Kecamatan Routes - List route must come before resource route
     Route::get('/kecamatan/list', [KecamatanController::class, 'list'])->name('kecamatan.list');
@@ -261,6 +259,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
 
     // Varian Produk Routes - List route must come before resource route
     Route::get('/varian-produk/list', [VarianProdukController::class, 'list'])->name('varian-produk.list');
+    Route::get('/varian-produk/{id}', [VarianProdukController::class, 'show'])->name('varian-produk.show');
     Route::resource('varian-produk', VarianProdukController::class)->except(['show', 'create', 'edit']);
 
     // Gambar Produk Routes - Delete only

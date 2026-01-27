@@ -43,7 +43,7 @@ export default function PembeliIndex({ auth, pembeli, filters }) {
                     {/* Search */}
                     <form onSubmit={handleSearch} className="flex gap-2">
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
                             <input
                                 type="text"
                                 placeholder="Cari pembeli..."

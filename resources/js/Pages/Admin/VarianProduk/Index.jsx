@@ -245,7 +245,11 @@ export default function Index({ varianProduk, filters }) {
                                         </Badge>
                                     </td>
                                     <td>
-                                        <ActionButtons onEdit={() => handleEdit(varian)} onDelete={() => handleDelete(varian)} />
+                                        <ActionButtons
+                                            onView={() => router.visit(route('admin.varian-produk.show', varian.id))}
+                                            onEdit={() => handleEdit(varian)}
+                                            onDelete={() => handleDelete(varian)}
+                                        />
                                     </td>
                                 </tr>
                             )}

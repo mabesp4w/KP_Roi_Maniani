@@ -46,6 +46,120 @@ class VarianProdukController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        $varianProduk = VarianProduk::with([
+            'produk.kategori',
+            'gambarProduks',
+            'itemPesanan.pesanan',
+            'ulasans.user',
+        ])->findOrFail($id);
+
+        // Calculate sales statistics
+        $totalTerjual = $varianProduk->itemPesanan
+            ->whereIn('pesanan.status', ['processing', 'shipped', 'delivered'])
+            ->sum('kuantitas');
+
+        $totalPendapatan = $varianProduk->itemPesanan
+            ->whereIn('pesanan.status', ['processing', 'shipped', 'delivered'])
+            ->sum(function ($item) use ($varianProduk) {
+                return $item->kuantitas * $varianProduk->harga;
+            });
+
+        // Get recent orders for this variant
+        $recentOrders = $varianProduk->itemPesanan()
+            ->with(['pesanan.user'])
+            ->whereHas('pesanan')
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(function ($item) use ($varianProduk) {
+                return [
+                    'id' => $item->pesanan->id,
+                    'customer' => $item->pesanan->user->name ?? 'Guest',
+                    'quantity' => $item->kuantitas,
+                    'total' => $item->kuantitas * $varianProduk->harga,
+                    'status' => $item->pesanan->status,
+                    'date' => $item->created_at->format('d M Y H:i'),
+                ];
+            });
+
+        // Get reviews
+        $ulasans = $varianProduk->ulasans()
+            ->with('user')
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(function ($ulasan) {
+                return [
+                    'id' => $ulasan->id,
+                    'user' => $ulasan->user->name ?? 'Anonymous',
+                    'rating' => $ulasan->rating,
+                    'komentar' => $ulasan->komentar,
+                    'date' => $ulasan->created_at->format('d M Y'),
+                ];
+            });
+
+        // Get average rating
+        $averageRating = $varianProduk->ulasans()->avg('rating') ?? 0;
+        $totalReviews = $varianProduk->ulasans()->count();
+
+        // Format images
+        $gambar = $varianProduk->gambarProduks->map(function ($img) {
+            return [
+                'id' => $img->id,
+                'url' => asset('storage/' . $img->gambar_produk),
+                'posisi' => $img->posisi,
+            ];
+        });
+
+        // Get other variants of same product
+        $otherVariants = VarianProduk::where('produk_id', $varianProduk->produk_id)
+            ->where('id', '!=', $varianProduk->id)
+            ->with('gambarProduks')
+            ->get()
+            ->map(function ($v) {
+                return [
+                    'id' => $v->id,
+                    'nama_varian' => $v->nama_varian,
+                    'nama_atribut' => $v->nama_atribut,
+                    'harga' => $v->harga,
+                    'stok' => $v->stok,
+                    'image' => $v->gambarProduks->first() 
+                        ? asset('storage/' . $v->gambarProduks->first()->gambar_produk)
+                        : null,
+                ];
+            });
+
+        return Inertia::render('Admin/VarianProduk/Show', [
+            'varianProduk' => [
+                'id' => $varianProduk->id,
+                'nama_atribut' => $varianProduk->nama_atribut,
+                'nama_varian' => $varianProduk->nama_varian,
+                'harga' => $varianProduk->harga,
+                'stok' => $varianProduk->stok,
+                'deskripsi' => $varianProduk->deskripsi,
+                'created_at' => $varianProduk->created_at->format('d M Y H:i'),
+                'updated_at' => $varianProduk->updated_at->format('d M Y H:i'),
+                'produk' => [
+                    'id' => $varianProduk->produk->id,
+                    'nama_produk' => $varianProduk->produk->nama_produk,
+                    'kategori' => $varianProduk->produk->kategori->nama_kategori ?? '-',
+                ],
+            ],
+            'gambar' => $gambar,
+            'statistik' => [
+                'totalTerjual' => $totalTerjual,
+                'totalPendapatan' => $totalPendapatan,
+                'averageRating' => round($averageRating, 1),
+                'totalReviews' => $totalReviews,
+            ],
+            'recentOrders' => $recentOrders,
+            'ulasans' => $ulasans,
+            'otherVariants' => $otherVariants,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
