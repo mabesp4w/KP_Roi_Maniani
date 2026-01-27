@@ -1,0 +1,51 @@
+@import 'tailwindcss';
+@plugin "daisyui" {
+    themes:
+        pastel --default,
+        dark --prefersdark;
+}
+
+@utility btn {
+  @apply rounded-sm;
+}
+
+@utility input {
+  @apply rounded-sm;
+}
+
+@utility textarea {
+  @apply rounded-sm;
+}
+
+@utility label {
+  @apply rounded-sm;
+}
+
+/* Fix double focus outline on inputs and textareas */
+.input:focus,
+.input:focus-visible,
+.textarea:focus,
+.textarea:focus-visible,
+.select:focus,
+.select:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.3) !important;
+  border-color: #ec4899 !important;
+}
+
+/* Fix checkbox focus */
+.checkbox:focus,
+.checkbox:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.3) !important;
+}
+
+/* Hide scrollbar for carousel */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
