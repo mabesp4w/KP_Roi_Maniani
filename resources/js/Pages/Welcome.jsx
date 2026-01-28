@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 export default function Welcome({ auth, categories = [], featuredProducts = [] }) {
     const [wishlistIds, setWishlistIds] = useState([]);
     const [togglingIds, setTogglingIds] = useState([]);
+    const [addingToCartIds, setAddingToCartIds] = useState([]);
     const [isPaused, setIsPaused] = useState(false);
     
     // Drag to scroll state
@@ -138,6 +139,35 @@ export default function Welcome({ auth, categories = [], featuredProducts = [] }
             },
             onFinish: () => {
                 setTogglingIds(togglingIds.filter(id => id !== productId));
+            },
+        });
+    };
+
+    const handleAddToCart = (e, productId) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (!auth?.user) {
+            toast.error('Silakan login terlebih dahulu');
+            router.visit(route('login'));
+            return;
+        }
+
+        setAddingToCartIds([...addingToCartIds, productId]);
+        
+        router.post(route('keranjang.store'), {
+            varian_produk_id: productId,
+            kuantitas: 1,
+        }, {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success('Produk berhasil ditambahkan ke keranjang');
+            },
+            onError: (errors) => {
+                toast.error(errors.error || 'Gagal menambahkan ke keranjang');
+            },
+            onFinish: () => {
+                setAddingToCartIds(addingToCartIds.filter(id => id !== productId));
             },
         });
     };
@@ -365,8 +395,16 @@ export default function Welcome({ auth, categories = [], featuredProducts = [] }
                                         </Link>
                                         <div className="flex items-center justify-between">
                                             <span className="text-2xl font-bold text-pink-500">{formatRupiah(product.price)}</span>
-                                            <button className="btn btn-primary btn-sm rounded-full gap-2" disabled={product.stock === 0}>
-                                                <ShoppingCart className="w-4 h-4" />
+                                            <button 
+                                                onClick={(e) => handleAddToCart(e, product.id)}
+                                                className="btn btn-primary btn-sm rounded-full gap-2" 
+                                                disabled={product.stock === 0 || addingToCartIds.includes(product.id)}
+                                            >
+                                                {addingToCartIds.includes(product.id) ? (
+                                                    <span className="loading loading-spinner loading-xs"></span>
+                                                ) : (
+                                                    <ShoppingCart className="w-4 h-4" />
+                                                )}
                                                 Pesan
                                             </button>
                                         </div>
